@@ -1,0 +1,30 @@
+{
+  "name": "taskolotl-server",
+  "version": "1.0.0",
+  "description": "Server for the taskolotl project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Taskolotl/Taskolotl-Server.git"
+  },
+  "keywords": [
+    "task-management"
+  ],
+  "author": "Andy Langer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Taskolotl/Taskolotl-Server/issues"
+  },
+  "homepage": "https://github.com/Taskolotl/Taskolotl-Server#readme",
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "tslint": "^6.1.3",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
