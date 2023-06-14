@@ -1,8 +1,1 @@
-"use strict";
-console.log("HELLO CLIENT!");
-const button = document.getElementById("myButton");
-button.addEventListener("click", onButtonClick);
-function onButtonClick() {
-    console.log("BUTTON CLICKED");
-}
-//# sourceMappingURL=index.js.map
+(()=>{"use strict";class e{constructor(e){console.log("CREATED TASK LIST 2!"),this.rootElement=document.createElement("div"),this.rootElement.classList.add("container","taskListContainer"),e.forEach((e=>{this.createCategoryTitle(e.categoryName),e.taskData.forEach((e=>{this.createRow(e[0],e[1])}))})),document.body.appendChild(this.rootElement)}createCategoryTitle(e){const t=document.createElement("div");t.classList.add("row");const o=document.createElement("div");o.classList.add("col","categoryTitleFont"),o.innerText=e,t.appendChild(o),this.rootElement.appendChild(t)}createRow(e,t){const o=document.createElement("div");o.classList.add("row");const c=document.createElement("div");c.classList.add("col");const a=document.createElement("div");a.classList.add("form-check");const n=document.createElement("input");n.classList.add("form-check-input","checkboxSize"),n.type="checkbox",n.value="",n.checked=t,n.id=e;const s=document.createElement("label");s.classList.add("form-check-label","formCheckLabel"),s.setAttribute("for",e),s.innerText=e,a.appendChild(n),a.appendChild(s),c.appendChild(a),o.appendChild(c),this.rootElement.appendChild(o)}}(async function(){try{const e=await fetch("http://localhost:3000/api/data",{method:"GET",headers:{"Content-Type":"application/json"}});if(e.ok)return await e.json();throw new Error("Request failed.")}catch(e){throw console.error(e),e}})().then((t=>{new e(t),console.log(t)})).catch((e=>{console.error(e)}))})();

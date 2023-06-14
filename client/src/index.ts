@@ -1,10 +1,40 @@
-console.log("HELLO CLIENT!");
+import {TaskList} from './TaskList'
+import { TaskCategory } from './TaskCategory';
+import { response } from 'express';
 
-const button = document.getElementById("myButton");
+async function sendGetRequest(): Promise<TaskCategory[]> {
+  const url = 'http://34.27.228.145/api/data'; // Replace with your server URL
 
-button!.addEventListener("click", onButtonClick);
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-
-function onButtonClick() {
-    console.log("BUTTON CLICKED");
+    if (response.ok) {
+      const responseData: TaskCategory[] = await response.json();
+      return responseData;
+    } else {
+      throw new Error('Request failed.'); // Handle errors
+    }
+  } catch (error) {
+    // Handle network errors and other errors
+    console.error(error);
+    throw error;
+  }
 }
+
+
+
+sendGetRequest()
+  .then((responseData: TaskCategory[]) => {
+    // Handle the response data
+    const myTaskList = new TaskList(responseData);
+    console.log(responseData);
+  })
+  .catch(error => {
+    // Handle errors
+    console.error(error);
+  });

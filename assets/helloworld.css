@@ -1,3 +1,25 @@
 .helloWorld {
     color: green;
 }
+
+.navbarFont {
+    font-size: 20pt;
+}
+
+.categoryTitleFont {
+    font-size: 15pt;
+}
+
+.taskListContainer {
+    margin-left: 0em;
+}
+
+.checkboxSize {
+    width: 2em;
+    height: 2em;
+}
+
+.formCheckLabel {
+    margin-left: 0.5em;
+}
+
