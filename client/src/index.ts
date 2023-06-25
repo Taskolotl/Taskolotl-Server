@@ -3,7 +3,7 @@ import { TaskCategory } from './TaskCategory';
 import { response } from 'express';
 
 async function sendGetRequest(): Promise<TaskCategory[]> {
-  const url = 'http://34.27.228.145/api/data'; // Replace with your server URL
+  const url = 'http://localhost:3000/api/data'; // Replace with your server URL
 
   try {
     const response = await fetch(url, {
