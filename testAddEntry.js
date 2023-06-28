@@ -93,5 +93,17 @@ addEntry(getCurrentDate(), "Hygiene", "Zits + acne patches", false);
 addEntry(getCurrentDate(), "Hygiene", "Shave", false);
 addEntry(getCurrentDate(), "Hygiene", "New pillowcase", false);
 
+addEntry(getCurrentDate(), "Exercise", "Exercise", false);
+
+addEntry(getCurrentDate(), "Wakeup", "Wake up at 6AM. Get right out of bed", false);
+
+addEntry(getCurrentDate(), "Galatians", "Find a moment to be patient", false);
+addEntry(getCurrentDate(), "Galatians", "Find a moment to be kind", false);
+addEntry(getCurrentDate(), "Galatians", "Find a moment to be humble", false);
+addEntry(getCurrentDate(), "Galatians", "Find a moment to be generous", false);
+addEntry(getCurrentDate(), "Galatians", "Find a moment to hold back from anger", false);
+
+addEntry(getCurrentDate(), "Work", "6 hours of concentrated work", false);
+
 
 

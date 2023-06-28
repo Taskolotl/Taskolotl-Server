@@ -1,10 +1,24 @@
 import { TaskCategory } from "./TaskCategory";
 
+interface ApiResponse {
+    score: number;
+    average: number;
+    previousAverage: number;
+    categoryData: {
+      categoryName: string;
+      taskData: [string, boolean][];
+      score: number;
+      average: number;
+      previousAverage: number;
+    }[];
+  }
+
 export class TaskList {
     private rootElement: HTMLElement;
+    private summaryElement: HTMLElement;
     private taskData: TaskCategory[];
 
-    constructor(taskDatas: TaskCategory[]) {
+    constructor(taskDatas: TaskCategory[], score: number, average: number, previousAverage: number) {
         console.log("CREATED TASK LIST 2!");
 
         // Store task data
@@ -14,9 +28,15 @@ export class TaskList {
         this.rootElement = document.createElement('div');
         this.rootElement.classList.add('container', 'taskListContainer');
 
+        this.summaryElement = this.createSummaryRow(score, average, previousAverage);
+        this.rootElement.appendChild(this.summaryElement);
+
         //Create rows
         taskDatas.forEach((taskData : TaskCategory) => {
             this.createCategoryTitle(taskData.categoryName);
+            console.log(taskData.score + ", " + taskData.average + ", " + taskData.previousAverage);
+
+            this.createCategorySummaryRow(taskData.score, taskData.average, taskData.previousAverage);
 
             taskData.taskData.forEach((taskEntry : [string, boolean]) => {
                 this.createRow(taskEntry[0], taskEntry[1]);
@@ -24,6 +44,38 @@ export class TaskList {
         });
 
         document.body.appendChild(this.rootElement);
+    }
+
+    private createCategorySummaryRow(score: number, average: number, previousAverage: number): void {
+        const summaryLabel : string = "Score: " + Number(score.toFixed(2)) + ", AVG: " + Number(average.toFixed(2)) + ", PV-AVG: " + Number(previousAverage.toFixed(2));
+        console.log(summaryLabel); 
+
+        const rowElement = document.createElement('div');
+        rowElement.classList.add('row');
+
+        const colElement = document.createElement('div');
+        colElement.classList.add('col');
+        colElement.innerText = summaryLabel;
+
+        rowElement.appendChild(colElement);
+
+        this.rootElement.appendChild(rowElement);
+    }
+
+    private createSummaryRow(score: number, average: number, previousAverage: number): HTMLElement {
+        const summaryLabel : string = "Score: " + Number(score.toFixed(2)) + ", AVG: " + Number(average.toFixed(2)) + ", PV-AVG: " + Number(previousAverage.toFixed(2));
+        console.log(summaryLabel); 
+
+        const rowElement = document.createElement('div');
+        rowElement.classList.add('row');
+
+        const colElement = document.createElement('div');
+        colElement.classList.add('col');
+        colElement.innerText = summaryLabel;
+
+        rowElement.appendChild(colElement);
+
+        return rowElement;
     }
 
     private createCategoryTitle(categoryName : string) {
@@ -110,9 +162,73 @@ export class TaskList {
               throw new Error('Failed to send data to server');
             }
             console.log('Data sent to server successfully');
+
+            //get new scores
+            this.getUpdatedScores();
+
           })
           .catch((error) => {
             console.error('Error sending data to server:', error);
           });
+      }
+
+
+      private async sendGetRequest(): Promise<ApiResponse> {
+        const url = 'http://localhost:3000/api/data'; // Replace with your server URL
+      
+        try {
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+      
+          if (response.ok) {
+            const responseData: ApiResponse = await response.json();
+            return responseData;
+          } else {
+            throw new Error('Request failed.'); // Handle errors
+          }
+        } catch (error) {
+          // Handle network errors and other errors
+          console.error(error);
+          throw error;
+        }
+      }
+
+      private getUpdatedScores(): void {
+        this.sendGetRequest()
+        .then((responseData: ApiResponse) => {
+            
+            this.rootElement.removeChild(this.summaryElement);
+            document.body.removeChild(this.rootElement);
+            // Store task data
+            this.taskData = responseData.categoryData;
+
+            //Create root element
+            this.rootElement = document.createElement('div');
+            this.rootElement.classList.add('container', 'taskListContainer');
+
+            this.summaryElement = this.createSummaryRow(responseData.score, responseData.average, responseData.previousAverage);
+            this.rootElement.appendChild(this.summaryElement);
+
+            //Create rows
+            responseData.categoryData.forEach((taskData : TaskCategory) => {
+                this.createCategoryTitle(taskData.categoryName);
+
+                this.createCategorySummaryRow(taskData.score, taskData.average, taskData.previousAverage);
+
+                taskData.taskData.forEach((taskEntry : [string, boolean]) => {
+                    this.createRow(taskEntry[0], taskEntry[1]);
+                });
+            });
+
+            document.body.appendChild(this.rootElement);
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error(error);
+        });
       }
 }
