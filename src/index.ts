@@ -55,26 +55,25 @@ function groupEntriesByCategory(entries: Entry[]): Map<string, Entry[]> {
 
 // Function to get entries for a specific date and group them by category
 function getEntriesGroupedByCategory(date: string): Promise<Map<string, Entry[]>> {
-    return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database('mydatabase.db');
-  
-      // Select all entries from the table
-      const query = `SELECT * FROM entries`;
-      db.all(query, [], (err, rows: Entry[]) => {
-        if (err) {
-          reject(err);
-        } else {
+  return new Promise((resolve, reject) => {
+    const db = new sqlite3.Database('mydatabase.db');
 
-            // Process the entries and group them by category
-            const entriesByCategory = groupEntriesByCategory(rows);
-            resolve(entriesByCategory);
-        }
-  
-        // Close the database connection
-        db.close();
-      });
+    // Select entries from the table with the given datetime
+    const query = `SELECT * FROM entries WHERE datetime = ?`;
+    db.all(query, [date], (err, rows: Entry[]) => {
+      if (err) {
+        reject(err);
+      } else {
+        // Process the entries and group them by category
+        const entriesByCategory = groupEntriesByCategory(rows);
+        resolve(entriesByCategory);
+      }
+
+      // Close the database connection
+      db.close();
     });
-  }
+  });
+}
 
 function getCurrentDate() {
     const currentDate = new Date();
