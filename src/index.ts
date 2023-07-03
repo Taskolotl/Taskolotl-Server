@@ -15,28 +15,6 @@ interface TaskCategory {
     taskData: [string, boolean][];
 }
 
-function parseEntriesFromRequest(req: any): Entry[] {
-    const entries: Entry[] = [];
-  
-    // Assuming the entries are passed as an array in the request body
-    const entryData = req.body.entries;
-  
-    if (Array.isArray(entryData)) {
-      entryData.forEach((entry: any) => {
-        const { datetime, category, name, finished } = entry;
-        const parsedEntry: Entry = {
-          datetime: datetime || '',
-          category: category || '',
-          name: name || '',
-          finished: !!finished,
-        };
-        entries.push(parsedEntry);
-      });
-    }
-  
-    return entries;
-  }
-
 function groupEntriesByCategory(entries: Entry[]): Map<string, Entry[]> {
     const entriesByCategory = new Map<string, Entry[]>();
   
