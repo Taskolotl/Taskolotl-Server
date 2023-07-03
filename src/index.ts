@@ -72,31 +72,6 @@ function printTaskCategory(taskCategory: TaskCategory): void {
     });
   }
 
-function updateEntriesInDatabase(entries: Entry[]) {
-    const db = new sqlite3.Database(databaseName);
-  
-    entries.forEach((entry) => {
-      const { datetime, category, name, finished } = entry;
-  
-      // Construct the update query
-      const updateQuery = `
-        UPDATE entries
-        SET finished = ?
-        WHERE datetime = ? AND category = ? AND name = ?;
-      `;
-  
-      // Execute the update query
-      db.run(updateQuery, [finished, datetime, category, name], function (error) {
-        if (error) {
-        } else {
-        }
-      });
-    });
-  
-    // Close the database connection
-    db.close();
-  }
-
   function updateEntryFinished(taskCategory: TaskCategory, currentDate: string): void {
     const db = new sqlite3.Database(databaseName);
 
