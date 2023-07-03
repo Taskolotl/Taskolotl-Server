@@ -17,6 +17,20 @@ interface TaskCategory {
     taskData: [string, boolean][];
 }
 
+interface GlobalScoringData {
+  score: number;
+  average: number;
+  previousAverage: number;
+}
+
+interface CategoryData {
+  score: number;
+  average: number;
+  previousAverage: number;
+  categoryName: string;
+  taskData: [string, boolean][];
+}
+
 function groupEntriesByCategory(entries: Entry[]): Map<string, Entry[]> {
     const entriesByCategory = new Map<string, Entry[]>();
   
@@ -33,28 +47,6 @@ function groupEntriesByCategory(entries: Entry[]): Map<string, Entry[]> {
     return entriesByCategory;
   }
 
-// Function to get entries for a specific date and group them by category
-function getEntriesGroupedByCategory(date: string): Promise<Map<string, Entry[]>> {
-  return new Promise((resolve, reject) => {
-    const db = new sqlite3.Database(databaseName);
-
-    // Select entries from the table with the given datetime
-    const query = `SELECT * FROM entries WHERE datetime = ?`;
-    db.all(query, [date], (err, rows: Entry[]) => {
-      if (err) {
-        reject(err);
-      } else {
-        // Process the entries and group them by category
-        const entriesByCategory = groupEntriesByCategory(rows);
-        resolve(entriesByCategory);
-      }
-
-      // Close the database connection
-      db.close();
-    });
-  });
-}
-
 function getCurrentDate() {
     const currentDate = new Date();
   
@@ -66,11 +58,6 @@ function getCurrentDate() {
   
     return formattedDate;
 }
-
-function printTaskCategory(taskCategory: TaskCategory): void {
-    taskCategory.taskData.forEach(([task, status]) => {
-    });
-  }
 
   function updateEntryFinished(taskCategory: TaskCategory, currentDate: string): void {
     const db = new sqlite3.Database(databaseName);
@@ -221,6 +208,110 @@ function printTaskCategory(taskCategory: TaskCategory): void {
     });
   }
 
+  function getGlobalScoringData(currentDate: string): Promise<GlobalScoringData> {
+    return new Promise((resolve, reject) => {
+      getSumOfFinishedValues(currentDate).then((sum) => {
+        calculateAverageFinished(currentDate).then((avg) => {
+          calculateAverageFinishedForNonCurrentDate(currentDate).then((pvavg) => {
+            const globalScoringData = {
+              score: sum,
+              average: avg,
+              previousAverage: pvavg
+            };
+  
+            resolve(globalScoringData)
+          })
+          .catch((err) => {
+            reject(err);
+          });
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  function getEntriesForCurrentDate(currentDate: string): Promise<Entry[]> {
+    return new Promise((resolve, reject) => {
+      const db = new sqlite3.Database(databaseName);
+
+      // Select entries from the table with the given datetime
+      const query = `SELECT * FROM entries WHERE datetime = ?`;
+      db.all(query, [currentDate], (err, rows: Entry[]) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+  
+        // Close the database connection
+        db.close();
+      });
+    });
+  }
+
+  function getCategoryData(currentDate: string): Promise<CategoryData[]> {
+    return new Promise((resolve, reject) => {
+      getEntriesForCurrentDate(currentDate).then((entries) => {
+        const entriesGroupedByCategory = groupEntriesByCategory(entries);
+
+        const promises: Promise<void>[] = [];
+        const categoryData: CategoryData[] = [];
+
+        entriesGroupedByCategory.forEach((entries, category) => {
+          const stringData = category;
+          const pairData: [string, boolean][] = [];
+
+          const data: CategoryData = {
+            score: -1,
+            average: -1,
+            previousAverage: -1,
+            categoryName: category,
+            taskData: pairData
+          };
+
+          entries.forEach((entry) => {
+              pairData.push([entry.name, entry.finished]);
+          });
+
+          const sPromise = getScoreByDatetimeAndCategory(currentDate, category)
+              .then((s) => {
+                  data.score = s;
+              });
+
+          const avgPromise = getAverageScoreByDatetimeAndCategory(currentDate, category)
+              .then((averageScore) => {
+                  data.average = averageScore;
+              });
+
+          const pvavgPromise = getAverageScoreByCategoryWithoutDatetime(category, currentDate)
+              .then((pvavg) => {
+                  data.previousAverage = pvavg;
+              });
+
+          promises.push(sPromise, avgPromise, pvavgPromise);
+          categoryData.push(data);
+        });
+
+        Promise.all(promises)
+        .then(() => {
+            resolve(categoryData);
+        })
+        .catch((err: Error) => {
+            reject(err);
+        });
+
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
   function getAverageScoreByCategoryWithoutDatetime(category: string, datetime: string): Promise<number> {
     return new Promise((resolve, reject) => {
       const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
@@ -258,99 +349,23 @@ app.get('/api/data', (req, res) => {
 
     const currentDate = getCurrentDate();
 
-    getSumOfFinishedValues(currentDate)
-        .then((sum) => {
-            calculateAverageFinished(currentDate)
-                .then((avg) => {
-                    calculateAverageFinishedForNonCurrentDate(currentDate)
-                        .then((pvavg) => {
-                            getEntriesGroupedByCategory(currentDate)
-                                .then((entriesByCategory) => {
-                                    const data: {
-                                        score: number;
-                                        average: number;
-                                        previousAverage: number;
-                                        categoryData: {
-                                            categoryName: string;
-                                            taskData: [string, boolean][];
-                                            score: number;
-                                            average: number;
-                                            previousAverage: number;
-                                        }[];
-                                    } = {
-                                        score: sum,
-                                        average: avg,
-                                        previousAverage: pvavg,
-                                        categoryData: [],
-                                    };
+    getGlobalScoringData(currentDate).then((globalScoringData) => {
+      getCategoryData(currentDate).then((cData) => {
+        const data: {
+          scoringData: GlobalScoringData
+          categoryData: CategoryData[];
+        } = {
+            scoringData: globalScoringData,
+            categoryData: cData,
+        };
 
-                                    const promises: Promise<void>[] = [];
-
-                                    entriesByCategory.forEach((entries, category) => {
-                                        const stringData = category;
-
-                                        const pairData: [string, boolean][] = [];
-
-                                        entries.forEach((entry) => {
-                                            pairData.push([entry.name, entry.finished]);
-                                        });
-
-                                        const bundle: {
-                                            categoryName: string;
-                                            taskData: [string, boolean][];
-                                            score: number;
-                                            average: number;
-                                            previousAverage: number;
-                                        } = {
-                                            categoryName: stringData,
-                                            taskData: pairData,
-                                            score: 0,
-                                            average: 0,
-                                            previousAverage: 0,
-                                        };
-
-                                        const sPromise = getScoreByDatetimeAndCategory(currentDate, category)
-                                            .then((s) => {
-                                                bundle.score = s;
-                                            });
-
-                                        const avgPromise = getAverageScoreByDatetimeAndCategory(currentDate, category)
-                                            .then((averageScore) => {
-                                                bundle.average = averageScore;
-                                            });
-
-                                        const pvavgPromise = getAverageScoreByCategoryWithoutDatetime(category, currentDate)
-                                            .then((pvavg) => {
-                                                bundle.previousAverage = pvavg;
-                                            });
-
-                                        promises.push(sPromise, avgPromise, pvavgPromise);
-                                        data.categoryData.push(bundle);
-                                    });
-
-                                    Promise.all(promises)
-                                        .then(() => {
-                                            res.json(data);
-                                        })
-                                        .catch((err: Error) => {
-                                            res.status(500).json({ error: 'An error occurred while retrieving data.' });
-                                        });
-                                })
-                                .catch((err: Error) => {
-                                    res.status(500).json({ error: 'An error occurred while querying the database.' });
-                                });
-                        })
-                        .catch((error) => {
-                            res.status(500).json({ error: 'An error occurred while retrieving entries.' });
-                        });
-                })
-                .catch((err) => {
-                    res.status(500).json({ error: 'An error occurred while querying the database.' });
-                });
-        })
-        .catch((err) => {
-            res.status(500).json({ error: 'An error occurred while querying the database.' });
-        });
+        res.json(data);
+      })
+      .catch((err) => {
+      });
+    })
+    .catch((err) => {
+    });
 });
 
   app.use(bodyParser.json());
@@ -365,7 +380,6 @@ app.get('/api/data', (req, res) => {
   
       // Step 3: Iterate over the array and create TaskCategory instances
       const parsedTaskCategories: TaskCategory[] = taskCategories.map(category => {
-        printTaskCategory(category);
         updateEntryFinished(category, getCurrentDate());
         const { categoryName, taskData } = category;
         const parsedTaskData: [string, boolean][] = taskData.map(([task, status]) => [task, Boolean(status)]);

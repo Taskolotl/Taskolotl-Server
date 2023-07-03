@@ -1,17 +1,23 @@
 import { TaskCategory } from "./TaskCategory";
 
+interface GlobalScoringData {
+  score: number;
+  average: number;
+  previousAverage: number;
+}
+
+interface CategoryData {
+  score: number;
+  average: number;
+  previousAverage: number;
+  categoryName: string;
+  taskData: [string, boolean][];
+}
+
 interface ApiResponse {
-    score: number;
-    average: number;
-    previousAverage: number;
-    categoryData: {
-      categoryName: string;
-      taskData: [string, boolean][];
-      score: number;
-      average: number;
-      previousAverage: number;
-    }[];
-  }
+  scoringData: GlobalScoringData
+  categoryData: CategoryData[];
+}
 
 export class TaskList {
     private rootElement: HTMLElement;
@@ -210,7 +216,7 @@ export class TaskList {
             this.rootElement = document.createElement('div');
             this.rootElement.classList.add('container', 'taskListContainer');
 
-            this.summaryElement = this.createSummaryRow(responseData.score, responseData.average, responseData.previousAverage);
+            this.summaryElement = this.createSummaryRow(responseData.scoringData.score, responseData.scoringData.average, responseData.scoringData.previousAverage);
             this.rootElement.appendChild(this.summaryElement);
 
             //Create rows

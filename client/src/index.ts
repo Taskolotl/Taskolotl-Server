@@ -2,18 +2,24 @@ import {TaskList} from './TaskList'
 import { TaskCategory } from './TaskCategory';
 import { response } from 'express';
 
+interface GlobalScoringData {
+  score: number;
+  average: number;
+  previousAverage: number;
+}
+
+interface CategoryData {
+  score: number;
+  average: number;
+  previousAverage: number;
+  categoryName: string;
+  taskData: [string, boolean][];
+}
+
 interface ApiResponse {
-    score: number;
-    average: number;
-    previousAverage: number;
-    categoryData: {
-      categoryName: string;
-      taskData: [string, boolean][];
-      score: number;
-      average: number;
-      previousAverage: number;
-    }[];
-  }
+  scoringData: GlobalScoringData
+  categoryData: CategoryData[];
+}
 
   async function sendGetRequest(): Promise<ApiResponse> {
     const url = 'http://localhost:3000/api/data'; // Replace with your server URL
@@ -44,10 +50,10 @@ interface ApiResponse {
 sendGetRequest()
   .then((responseData: ApiResponse) => {
     // Handle the response data
-    console.log("SCORE: " + responseData.score);
-    console.log("AVERAGE: " + responseData.average);
-    console.log("PREV AVERAGE: " + responseData.previousAverage);
-    const myTaskList = new TaskList(responseData.categoryData, responseData.score, responseData.average, responseData.previousAverage);
+    console.log("SCORE: " + responseData.scoringData.score);
+    console.log("AVERAGE: " + responseData.scoringData.average);
+    console.log("PREV AVERAGE: " + responseData.scoringData.previousAverage);
+    const myTaskList = new TaskList(responseData.categoryData, responseData.scoringData.score, responseData.scoringData.average, responseData.scoringData.previousAverage);
     console.log(responseData);
   })
   .catch((error) => {
