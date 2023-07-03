@@ -3,6 +3,8 @@ import * as sqlite3 from 'sqlite3';
 import * as bodyParser from 'body-parser';
 import * as schedule from 'node-schedule';
 
+const databaseName: string = 'mydatabase.db';
+
 interface Entry {
     datetime: string;
     category: string;
@@ -34,7 +36,7 @@ function groupEntriesByCategory(entries: Entry[]): Map<string, Entry[]> {
 // Function to get entries for a specific date and group them by category
 function getEntriesGroupedByCategory(date: string): Promise<Map<string, Entry[]>> {
   return new Promise((resolve, reject) => {
-    const db = new sqlite3.Database('mydatabase.db');
+    const db = new sqlite3.Database(databaseName);
 
     // Select entries from the table with the given datetime
     const query = `SELECT * FROM entries WHERE datetime = ?`;
@@ -71,7 +73,7 @@ function printTaskCategory(taskCategory: TaskCategory): void {
   }
 
 function updateEntriesInDatabase(entries: Entry[]) {
-    const db = new sqlite3.Database('mydatabase.db');
+    const db = new sqlite3.Database(databaseName);
   
     entries.forEach((entry) => {
       const { datetime, category, name, finished } = entry;
@@ -96,7 +98,7 @@ function updateEntriesInDatabase(entries: Entry[]) {
   }
 
   function updateEntryFinished(taskCategory: TaskCategory, currentDate: string): void {
-    const db = new sqlite3.Database('mydatabase.db');
+    const db = new sqlite3.Database(databaseName);
 
     taskCategory.taskData.forEach(([taskName, finished]) => {
       // Prepare the SQL statement
@@ -117,7 +119,7 @@ function updateEntriesInDatabase(entries: Entry[]) {
 
   function getSumOfFinishedValues(datetime: string): Promise<number> {
     return new Promise((resolve, reject) => {
-        const db = new sqlite3.Database('mydatabase.db'); // Replace with your SQLite database file
+        const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
     
         const query = `
           SELECT AVG(score) as averageScore
@@ -139,7 +141,7 @@ function updateEntriesInDatabase(entries: Entry[]) {
 
   function calculateAverageFinished(datetime: string): Promise<number> {
     return new Promise((resolve, reject) => {
-        const db = new sqlite3.Database('mydatabase.db'); // Replace with your SQLite database file
+        const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
     
         const query = `
           SELECT AVG(averageScore) as overallAverageScore
@@ -164,7 +166,7 @@ function updateEntriesInDatabase(entries: Entry[]) {
 
   function calculateAverageFinishedForNonCurrentDate(datetime: string): Promise<number> {
     return new Promise((resolve, reject) => {
-        const db = new sqlite3.Database('mydatabase.db'); // Replace with your SQLite database file
+        const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
     
         const query = `
           SELECT AVG(averageScore) as overallAverageScore
@@ -190,7 +192,7 @@ function updateEntriesInDatabase(entries: Entry[]) {
 
   function setCategoryScore(categoryName: string, datetime: string, score: number): Promise<void> {
     return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database('mydatabase.db'); // Replace with your SQLite database file
+      const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
   
       const query = `UPDATE CategoryTable SET score = ? WHERE category = ? AND datetime = ?`;
   
@@ -208,7 +210,7 @@ function updateEntriesInDatabase(entries: Entry[]) {
 
   function getScoreByDatetimeAndCategory(datetime: string, category: string): Promise<number> {
     return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database('mydatabase.db'); // Replace with your SQLite database file
+      const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
   
       const query = `SELECT score FROM CategoryTable WHERE datetime = ? AND category = ?`;
   
@@ -227,7 +229,7 @@ function updateEntriesInDatabase(entries: Entry[]) {
 
   function getAverageScoreByDatetimeAndCategory(datetime: string, category: string): Promise<number> {
     return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database('mydatabase.db'); // Replace with your SQLite database file
+      const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
   
       const query = `SELECT AVG(score) as averageScore FROM CategoryTable WHERE datetime = ? AND category = ?`;
   
@@ -246,7 +248,7 @@ function updateEntriesInDatabase(entries: Entry[]) {
 
   function getAverageScoreByCategoryWithoutDatetime(category: string, datetime: string): Promise<number> {
     return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database('mydatabase.db'); // Replace with your SQLite database file
+      const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
   
       const query = `
         SELECT AVG(score) as averageScore
