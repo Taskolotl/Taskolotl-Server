@@ -2,6 +2,8 @@ import {TaskList} from './TaskList'
 import { TaskCategory } from './TaskCategory';
 import { response } from 'express';
 
+console.log("222");
+
 interface GlobalScoringData {
   score: number;
   average: number;

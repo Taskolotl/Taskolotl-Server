@@ -7,16 +7,10 @@ function runCommand(command) {
 }
 
 // Run TypeScript compiler
-runCommand('npx tsc');
-
-// Navigate to "client" directory
-process.chdir(path.join(__dirname, 'client'));
+runCommand('npm run build');
 
 // Run webpack
-runCommand('npx webpack --config webpack.config.js');
-
-// Navigate back to the root directory
-process.chdir(__dirname);
+runCommand('npm run build:client');
 
 // Copy index.js to the assets folder
 fs.copyFileSync(

@@ -3,6 +3,8 @@ import * as sqlite3 from 'sqlite3';
 import * as bodyParser from 'body-parser';
 import * as schedule from 'node-schedule';
 
+console.log("111");
+
 const databaseName: string = 'mydatabase.db';
 
 interface Entry {
