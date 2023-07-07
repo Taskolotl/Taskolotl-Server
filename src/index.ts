@@ -3,6 +3,8 @@ import * as sqlite3 from 'sqlite3';
 import * as bodyParser from 'body-parser';
 import * as schedule from 'node-schedule';
 
+import { TaskolotlStateRetriever } from "./TaskolotlStateRetriever";
+
 console.log("111");
 
 const databaseName: string = 'mydatabase.db';
@@ -348,25 +350,13 @@ app.get('/', (req, res) => {
 
 // GET request route handler
 app.get('/api/data', (req, res) => {
+    const a = new TaskolotlStateRetriever();
 
-    const currentDate = getCurrentDate();
-
-    getGlobalScoringData(currentDate).then((globalScoringData) => {
-      getCategoryData(currentDate).then((cData) => {
-        const data: {
-          scoringData: GlobalScoringData
-          categoryData: CategoryData[];
-        } = {
-            scoringData: globalScoringData,
-            categoryData: cData,
-        };
-
-        res.json(data);
-      })
-      .catch((err) => {
-      });
+    a.getTaskolotlState().then((response) => {
+      res.json(response);
     })
     .catch((err) => {
+      console.log(err);  
     });
 });
 
