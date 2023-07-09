@@ -10,9 +10,9 @@ function getCurrentDate() {
     const formattedDate = `${month}-${day}-${year}`;
   
     return formattedDate;
-  }
+}
 
-  function addEntryToCategoryTable(date, category, average, previousAverage, score) {
+function addEntryToCategoryTable(date, category, average, previousAverage, score) {
     const db = new sqlite3.Database('mydatabase.db');
     const tableName = 'CategoryTable';
   
@@ -31,18 +31,5 @@ function getCurrentDate() {
       // Close the database connection
       db.close();
     });
-  }
+}
 
-addEntryToCategoryTable(getCurrentDate(), "Faith", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Current Relationships", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Diet", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Studying", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Atlas", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Housework", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Gamedev", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Webdev", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Hygiene", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Exercise", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Wakeup", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Galatians", 0, 0, 0);
-addEntryToCategoryTable(getCurrentDate(), "Work", 0, 0, 0);

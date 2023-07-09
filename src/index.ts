@@ -4,8 +4,7 @@ import * as bodyParser from 'body-parser';
 import * as schedule from 'node-schedule';
 
 import { TaskolotlStateRetriever } from "./TaskolotlStateRetriever";
-
-console.log("111");
+import { CurrentDateRetriever } from "./CurrentDateRetriever";
 
 const databaseName: string = 'mydatabase.db';
 
@@ -21,35 +20,6 @@ interface TaskCategory {
     taskData: [string, boolean][];
 }
 
-interface GlobalScoringData {
-  score: number;
-  average: number;
-  previousAverage: number;
-}
-
-interface CategoryData {
-  score: number;
-  average: number;
-  previousAverage: number;
-  categoryName: string;
-  taskData: [string, boolean][];
-}
-
-function groupEntriesByCategory(entries: Entry[]): Map<string, Entry[]> {
-    const entriesByCategory = new Map<string, Entry[]>();
-  
-    entries.forEach((entry) => {
-      const { category } = entry;
-  
-      if (entriesByCategory.has(category)) {
-        entriesByCategory.get(category)!.push(entry);
-      } else {
-        entriesByCategory.set(category, [entry]);
-      }
-    });
-  
-    return entriesByCategory;
-  }
 
 function getCurrentDate() {
     const currentDate = new Date();
@@ -105,57 +75,6 @@ function getCurrentDate() {
       });
   }
 
-  function calculateAverageFinished(datetime: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-        const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
-    
-        const query = `
-          SELECT AVG(averageScore) as overallAverageScore
-          FROM (
-            SELECT datetime, AVG(score) as averageScore
-            FROM CategoryTable
-            GROUP BY datetime
-          )`;
-    
-        db.get(query, [], (err: Error | null, row: any) => {
-          if (err) {
-            reject(err);
-          } else {
-            const overallAverageScore = row && row.overallAverageScore !== null ? row.overallAverageScore : -1;
-            resolve(overallAverageScore);
-          }
-    
-          db.close();
-        });
-      });
-  }
-
-  function calculateAverageFinishedForNonCurrentDate(datetime: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-        const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
-    
-        const query = `
-          SELECT AVG(averageScore) as overallAverageScore
-          FROM (
-            SELECT datetime, AVG(score) as averageScore
-            FROM CategoryTable
-            WHERE datetime != ?
-            GROUP BY datetime
-          )`;
-    
-        db.get(query, [datetime], (err: Error | null, row: any) => {
-          if (err) {
-            reject(err);
-          } else {
-            const overallAverageScore = row && row.overallAverageScore !== null ? row.overallAverageScore : -1;
-            resolve(overallAverageScore);
-          }
-    
-          db.close();
-        });
-      });
-  }
-
   function setCategoryScore(categoryName: string, datetime: string, score: number): Promise<void> {
     return new Promise((resolve, reject) => {
       const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
@@ -167,170 +86,6 @@ function getCurrentDate() {
           reject(err);
         } else {
           resolve();
-        }
-  
-        db.close();
-      });
-    });
-  }
-
-  function getScoreByDatetimeAndCategory(datetime: string, category: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
-  
-      const query = `SELECT score FROM CategoryTable WHERE datetime = ? AND category = ?`;
-  
-      db.get(query, [datetime, category], (err: Error | null, row: any) => {
-        if (err) {
-          reject(err);
-        } else {
-          const score = row ? row.score : null;
-          resolve(score);
-        }
-  
-        db.close();
-      });
-    });
-  }
-
-  function getAverageScoreByDatetimeAndCategory(datetime: string, category: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
-  
-      const query = `SELECT AVG(score) as averageScore FROM CategoryTable WHERE datetime = ? AND category = ?`;
-  
-      db.get(query, [datetime, category], (err: Error | null, row: any) => {
-        if (err) {
-          reject(err);
-        } else {
-          const averageScore = row ? row.averageScore : null;
-          resolve(averageScore);
-        }
-  
-        db.close();
-      });
-    });
-  }
-
-  function getGlobalScoringData(currentDate: string): Promise<GlobalScoringData> {
-    return new Promise((resolve, reject) => {
-      getSumOfFinishedValues(currentDate).then((sum) => {
-        calculateAverageFinished(currentDate).then((avg) => {
-          calculateAverageFinishedForNonCurrentDate(currentDate).then((pvavg) => {
-            const globalScoringData = {
-              score: sum,
-              average: avg,
-              previousAverage: pvavg
-            };
-  
-            resolve(globalScoringData)
-          })
-          .catch((err) => {
-            reject(err);
-          });
-        })
-        .catch((err) => {
-          reject(err);
-        });
-      })
-      .catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  function getEntriesForCurrentDate(currentDate: string): Promise<Entry[]> {
-    return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database(databaseName);
-
-      // Select entries from the table with the given datetime
-      const query = `SELECT * FROM entries WHERE datetime = ?`;
-      db.all(query, [currentDate], (err, rows: Entry[]) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
-        }
-  
-        // Close the database connection
-        db.close();
-      });
-    });
-  }
-
-  function getCategoryData(currentDate: string): Promise<CategoryData[]> {
-    return new Promise((resolve, reject) => {
-      getEntriesForCurrentDate(currentDate).then((entries) => {
-        const entriesGroupedByCategory = groupEntriesByCategory(entries);
-
-        const promises: Promise<void>[] = [];
-        const categoryData: CategoryData[] = [];
-
-        entriesGroupedByCategory.forEach((entries, category) => {
-          const stringData = category;
-          const pairData: [string, boolean][] = [];
-
-          const data: CategoryData = {
-            score: -1,
-            average: -1,
-            previousAverage: -1,
-            categoryName: category,
-            taskData: pairData
-          };
-
-          entries.forEach((entry) => {
-              pairData.push([entry.name, entry.finished]);
-          });
-
-          const sPromise = getScoreByDatetimeAndCategory(currentDate, category)
-              .then((s) => {
-                  data.score = s;
-              });
-
-          const avgPromise = getAverageScoreByDatetimeAndCategory(currentDate, category)
-              .then((averageScore) => {
-                  data.average = averageScore;
-              });
-
-          const pvavgPromise = getAverageScoreByCategoryWithoutDatetime(category, currentDate)
-              .then((pvavg) => {
-                  data.previousAverage = pvavg;
-              });
-
-          promises.push(sPromise, avgPromise, pvavgPromise);
-          categoryData.push(data);
-        });
-
-        Promise.all(promises)
-        .then(() => {
-            resolve(categoryData);
-        })
-        .catch((err: Error) => {
-            reject(err);
-        });
-
-      })
-      .catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  function getAverageScoreByCategoryWithoutDatetime(category: string, datetime: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database(databaseName); // Replace with your SQLite database file
-  
-      const query = `
-        SELECT AVG(score) as averageScore
-        FROM CategoryTable
-        WHERE category = ? AND datetime != ?`;
-  
-      db.get(query, [category, datetime], (err: Error | null, row: any) => {
-        if (err) {
-          reject(err);
-        } else {
-          const averageScore = row && row.averageScore !== null ? row.averageScore : -1;
-          resolve(averageScore);
         }
   
         db.close();
@@ -352,7 +107,7 @@ app.get('/', (req, res) => {
 app.get('/api/data', (req, res) => {
     const a = new TaskolotlStateRetriever();
 
-    a.getTaskolotlState().then((response) => {
+    a.getTaskolotlState(CurrentDateRetriever.getCurrentDate()).then((response) => {
       res.json(response);
     })
     .catch((err) => {
@@ -452,90 +207,6 @@ function addEntryToCategoryTable(date: string, category: string, average: number
 
 // Define the task to be executed at 12:05 AM
 const midnightTask = () => {
-    addEntryToCategoryTable(getCurrentDate(), "Faith", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Current Relationships", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Diet", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Studying", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Atlas", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Housework", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Gamedev", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Webdev", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Hygiene", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Exercise", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Wakeup", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Galatians", 0, 0, 0);
-    addEntryToCategoryTable(getCurrentDate(), "Work", 0, 0, 0);
-
-
-    addEntry(getCurrentDate(), "Faith", "Pray", false);
-    addEntry(getCurrentDate(), "Faith", "Truly and honestly seek God", false);
-    addEntry(getCurrentDate(), "Faith", "NF", false);
-    addEntry(getCurrentDate(), "Faith", "No swearing", false);
-    addEntry(getCurrentDate(), "Faith", "Read scripture", false);
-    addEntry(getCurrentDate(), "Faith", "Don't read scans you didn't pay for", false);
-    
-    addEntry(getCurrentDate(), "Current Relationships", "Mom", false);
-    addEntry(getCurrentDate(), "Current Relationships", "Dad", false);
-    addEntry(getCurrentDate(), "Current Relationships", "Charlie", false);
-    addEntry(getCurrentDate(), "Current Relationships", "Ryan", false);
-    addEntry(getCurrentDate(), "Current Relationships", "Max", false);
-    addEntry(getCurrentDate(), "Current Relationships", "Joey", false);
-    
-    addEntry(getCurrentDate(), "Diet", "Get enough fruit", false);
-    addEntry(getCurrentDate(), "Diet", "Get enough veggies", false);
-    addEntry(getCurrentDate(), "Diet", "Get enough protein", false);
-    addEntry(getCurrentDate(), "Diet", "Get enough carbs", false);
-    addEntry(getCurrentDate(), "Diet", "Get enough water", false);
-    
-    addEntry(getCurrentDate(), "Studying", "One unit study gamedev", false);
-    addEntry(getCurrentDate(), "Studying", "One unit study webdev frontend", false);
-    addEntry(getCurrentDate(), "Studying", "One unit study backend", false);
-    addEntry(getCurrentDate(), "Studying", "One unit study Japanese", false);
-    addEntry(getCurrentDate(), "Studying", "One unit study cooking", false);
-    
-    addEntry(getCurrentDate(), "Atlas", "15 minutes play", false);
-    addEntry(getCurrentDate(), "Atlas", "15 minutes pets", false);
-    addEntry(getCurrentDate(), "Atlas", "Greenies", false);
-    addEntry(getCurrentDate(), "Atlas", "Proper Diet", false);
-    addEntry(getCurrentDate(), "Atlas", "Clean water", false);
-    addEntry(getCurrentDate(), "Atlas", "Litter box", false);
-    
-    addEntry(getCurrentDate(), "Housework", "One unit dishes", false);
-    addEntry(getCurrentDate(), "Housework", "One unit garbage", false);
-    addEntry(getCurrentDate(), "Housework", "One unit laundry", false);
-    addEntry(getCurrentDate(), "Housework", "One unit housecleaning", false);
-    addEntry(getCurrentDate(), "Housework", "One unit clutter", false);
-    addEntry(getCurrentDate(), "Housework", "Get the mail", false);
-    addEntry(getCurrentDate(), "Housework", "One unit shredding", false);
-    addEntry(getCurrentDate(), "Housework", "Food prepped for the next day", false);
-    addEntry(getCurrentDate(), "Housework", "Wash any dishes I dirtied", false);
-    
-    addEntry(getCurrentDate(), "Gamedev", "One unit gamedev", false);
-    
-    addEntry(getCurrentDate(), "Webdev", "One unit webdev", false);
-    
-    addEntry(getCurrentDate(), "Hygiene", "Dental trio one", false);
-    addEntry(getCurrentDate(), "Hygiene", "Dental trio two", false);
-    addEntry(getCurrentDate(), "Hygiene", "Shower", false);
-    addEntry(getCurrentDate(), "Hygiene", "Wash face one", false);
-    addEntry(getCurrentDate(), "Hygiene", "Moisturize one", false);
-    addEntry(getCurrentDate(), "Hygiene", "Moisturize two", false);
-    addEntry(getCurrentDate(), "Hygiene", "Wash face two", false);
-    addEntry(getCurrentDate(), "Hygiene", "Zits + acne patches", false);
-    addEntry(getCurrentDate(), "Hygiene", "Shave", false);
-    addEntry(getCurrentDate(), "Hygiene", "New pillowcase", false);
-
-    addEntry(getCurrentDate(), "Exercise", "Exercise", false);
-
-    addEntry(getCurrentDate(), "Wakeup", "Wake up at 6AM. Get right out of bed", false);
-
-    addEntry(getCurrentDate(), "Galatians", "Find a moment to be patient", false);
-    addEntry(getCurrentDate(), "Galatians", "Find a moment to be kind", false);
-    addEntry(getCurrentDate(), "Galatians", "Find a moment to be humble", false);
-    addEntry(getCurrentDate(), "Galatians", "Find a moment to be generous", false);
-    addEntry(getCurrentDate(), "Galatians", "Find a moment to hold back from anger", false);
-
-    addEntry(getCurrentDate(), "Work", "6 hours of concentrated work", false);
   };
   
 // Schedule the task to run every night at 12:05 AM

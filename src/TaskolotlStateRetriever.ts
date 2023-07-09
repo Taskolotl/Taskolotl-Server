@@ -8,14 +8,12 @@ import * as sqlite3 from 'sqlite3';
 
 export class TaskolotlStateRetriever {
     constructor() {
-        console.log("HELLO TaskolotlStateRetriever");
     }
 
-    public getTaskolotlState(): Promise<TaskolotlState> {
+    public getTaskolotlState(currentDate: string): Promise<TaskolotlState> {
         return new Promise((resolve, reject) => {
-            const currentDate = CurrentDateRetriever.getCurrentDate();
             const databaseName = 'mydatabase.db';
-    
+
             this.getGlobalScoringData(currentDate, databaseName).then((globalScoringData) => {
               this.getCategoryData(currentDate, databaseName).then((cData) => {
                 const data: TaskolotlState = {
@@ -156,6 +154,10 @@ export class TaskolotlStateRetriever {
               };
     
               entries.forEach((entry) => {
+                  if (typeof entry.finished === 'number') {
+                    entry.finished = entry.finished === 1 ? true : false;
+                  }
+
                   pairData.push([entry.name, entry.finished]);
               });
     
