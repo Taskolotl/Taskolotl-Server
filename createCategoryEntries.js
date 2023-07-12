@@ -33,3 +33,18 @@ function addEntryToCategoryTable(date, category, average, previousAverage, score
     });
 }
 
+addEntryToCategoryTable(getCurrentDate(), "Test-Category-1", 0, 0, 0);
+
+// addEntryToCategoryTable(getCurrentDate(), "Faith", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Current Relationships", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Diet", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Studying", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Atlas", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Housework", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Gamedev", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Webdev", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Hygiene", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Exercise", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Wakeup", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Galatians", 0, 0, 0);
+// addEntryToCategoryTable(getCurrentDate(), "Work", 0, 0, 0);
