@@ -24,8 +24,6 @@ app.get('/api/data', (req, res) => {
     const a = new TaskolotlStateRetriever();
 
     a.getTaskolotlState(CurrentDateRetriever.getCurrentDate()).then((response) => {
-      console.log("RESPONSE: ");
-      console.log(JSON.stringify(response));
       res.json(response);
     })
     .catch((err) => {
