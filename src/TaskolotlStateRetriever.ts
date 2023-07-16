@@ -1,4 +1,3 @@
-import { CurrentDateRetriever } from "./CurrentDateRetriever";
 import { GlobalScoringData } from "./GlobalScoringData"
 import { CategoryData } from "./CategoryData"
 import { Entry } from "./Entry"
@@ -143,7 +142,7 @@ export class TaskolotlStateRetriever {
     
             entriesGroupedByCategory.forEach((entries, category) => {
               const stringData = category;
-              const pairData: [string, boolean][] = [];
+              const pairData: [string, number][] = [];
     
               const data: CategoryData = {
                 score: -1,
@@ -154,10 +153,6 @@ export class TaskolotlStateRetriever {
               };
     
               entries.forEach((entry) => {
-                  if (typeof entry.finished === 'number') {
-                    entry.finished = entry.finished === 1 ? true : false;
-                  }
-
                   pairData.push([entry.name, entry.finished]);
               });
     

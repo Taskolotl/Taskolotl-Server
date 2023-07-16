@@ -81,7 +81,7 @@ describe('Testing getting state', () => {
     const a = new TaskolotlStateRetriever();
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-        const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", false]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
+        const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", 0]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
 
       expect(response).toEqual(expectedResult);
     })
@@ -103,7 +103,7 @@ describe('Testing getting state', () => {
     const a = new TaskolotlStateRetriever();
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", false], ["Test-Habit-2", false], ["Test-Habit-3", false]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
+      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", 0], ["Test-Habit-2", 0], ["Test-Habit-3", 0]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
 
       expect(response).toEqual(expectedResult);
     })
@@ -127,7 +127,7 @@ describe('Testing getting state', () => {
     const a = new TaskolotlStateRetriever();
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", false], ["Test-Habit-2", false]]}, {"average": 0, "categoryName": "Test-Category-2", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", false], ["Test-Habit-2", false]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
+      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", 0], ["Test-Habit-2", 0]]}, {"average": 0, "categoryName": "Test-Category-2", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", 0], ["Test-Habit-2", 0]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
 
       expect(response).toEqual(expectedResult);
     })
@@ -149,7 +149,7 @@ describe('Testing getting state', () => {
     const a = new TaskolotlStateRetriever();
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": 0, "score": 0, "taskData": [["Test-Habit-1", false]]}], "scoringData": {"average": 0, "previousAverage": 0, "score": 0}};
+      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": 0, "score": 0, "taskData": [["Test-Habit-1", 0]]}], "scoringData": {"average": 0, "previousAverage": 0, "score": 0}};
 
       expect(response).toEqual(expectedResult);
     })
@@ -177,8 +177,8 @@ describe('Testing getting state', () => {
     const a = new TaskolotlStateRetriever();
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": 0, "score": 0, "taskData": [["Test-Habit-1", false], ["Test-Habit-2", false], ["Test-Habit-3", false], 
-      ["Test-Habit-4", false]]}], "scoringData": {"average": 0, "previousAverage": 0, "score": 0}};
+      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": 0, "score": 0, "taskData": [["Test-Habit-1", 0], ["Test-Habit-2", 0], ["Test-Habit-3", 0], 
+      ["Test-Habit-4", 0]]}], "scoringData": {"average": 0, "previousAverage": 0, "score": 0}};
 
       expect(response).toEqual(expectedResult);
     })
@@ -203,7 +203,7 @@ describe('Testing getting state', () => {
     await b.updateEntry(true, "2023-6-24", "Test-Category-1", "Test-Habit-1");
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", true]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
+      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", 1]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
 
       expect(response).toEqual(expectedResult);
     })
@@ -229,7 +229,7 @@ describe('Testing getting state', () => {
     await b.setCategoryScore("Test-Category-1", "2023-6-24", 1);
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 1, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 1, "taskData": [["Test-Habit-1", true]]}], "scoringData": {"average": 1, "previousAverage": -1, "score": 1}};
+      const expectedResult: TaskolotlState = {"categoryData": [{"average": 1, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 1, "taskData": [["Test-Habit-1", 1]]}], "scoringData": {"average": 1, "previousAverage": -1, "score": 1}};
 
       expect(response).toEqual(expectedResult);
     })
@@ -257,7 +257,7 @@ describe('Testing getting state', () => {
     await b.updateEntryFinished(entry, "Test-Category-1", "2023-6-24");
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", true]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
+      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 0, "taskData": [["Test-Habit-1", 1]]}], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
 
       expect(response).toEqual(expectedResult);
     })
@@ -268,34 +268,6 @@ describe('Testing getting state', () => {
   });
 
   test('Test updateTaskolotlState', async () => {
-    runCommand('del mydatabase.db');
-    runCommand('node ../createDB.js');
-    
-    await addEntryToCategoryTable("2023-6-24", "Test-Category-1", 0, 0, 0);
-    await addEntry("2023-6-24", "Test-Category-1", "Test-Habit-1", false);
-
-    const a = new TaskolotlStateRetriever();
-    const b = new TaskolotlStateUpdater();
-
-    const jsonString = '[{"score":0,"average":0,"previousAverage":-1,"categoryName":"Test-Category-1","taskData":[["Test-Habit-1",true]]}]'
-    const entry: [string, boolean][] = [
-      ["Test-Habit-1", true]
-    ];
-
-    await b.updateTaskolotlState(jsonString, "2023-6-24");
-
-    await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 1, "categoryName": "Test-Category-1", "previousAverage": -1, "score": 1, "taskData": [["Test-Habit-1", true]]}], "scoringData": {"average": 1, "previousAverage": -1, "score": 1}};
-
-      expect(response).toEqual(expectedResult);
-    })
-    .catch((err: Error) => {
-        console.log(err);
-        expect(err).toBeUndefined();
-    });
-  });
-
-  test('Test prod', async () => {
     runCommand('del mydatabase.db');
     runCommand('node ../createDB.js');
     
@@ -318,7 +290,7 @@ describe('Testing getting state', () => {
     await addEntry("2023-6-24", "Faith", "NF", false);
     await addEntry("2023-6-24", "Faith", "No swearing", false);
     await addEntry("2023-6-24", "Faith", "Read scripture", false);
-    await addEntry("2023-6-24", "Faith", "Don't read scans you didn't pay for", false);
+    await addEntry("2023-6-24", "Faith", "Do not read scans you did not pay for", false);
 
     await addEntry("2023-6-24", "Current Relationships", "Mom", false);
     await addEntry("2023-6-24", "Current Relationships", "Dad", false);
@@ -367,7 +339,7 @@ describe('Testing getting state', () => {
     await addEntry("2023-6-24", "Housework", "Wash stove if needed", false);
     await addEntry("2023-6-24", "Housework", "Clean kitchen floor if needed", false);
     await addEntry("2023-6-24", "Housework", "One unit kitchen clutter", false);
-    await addEntry("2023-6-24", "Housework", "Do a load of laundry if there's enough", false);
+    await addEntry("2023-6-24", "Housework", "Do a load of laundry if there is enough", false);
     await addEntry("2023-6-24", "Housework", "One unit vacuum office", false);
     await addEntry("2023-6-24", "Housework", "One unit office clutter", false);
     await addEntry("2023-6-24", "Housework", "One unit office trash", false);
@@ -408,13 +380,37 @@ describe('Testing getting state', () => {
     await addEntry("2023-6-24", "Work", "5 hours of concentrated work", false);
 
     const a = new TaskolotlStateRetriever();
+    const b = new TaskolotlStateUpdater();
+
+    const jsonString = '[{"score":0,"average":0,"previousAverage":-1,"categoryName":"Test-Category-1","taskData":[["Test-Habit-1",true]]}]'
+    const entry: [string, boolean][] = [
+      ["Test-Habit-1", true]
+    ];
+
 
     await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
-      const expectedResult: TaskolotlState = {"categoryData": [{"average": 0, "categoryName": "Faith", "previousAverage": -1, "score": 0, "taskData": [["Pray", false], ["Truly and honestly seek God", false], ["NF", false], ["No swearing", false], ["Read scripture", false], ["Don't read scans you didn't pay for", false]]}, {"average": 0, "categoryName": "Current Relationships", "previousAverage": -1, "score": 0, "taskData": [["Mom", false], ["Dad", false], ["Charlie", false], ["Ryan", false], ["Max", false], ["Joey", false]]}, {"average": 0, "categoryName": "Diet", "previousAverage": -1, "score": 0, "taskData": [["Get enough fruit", false], ["Get enough veggies", false], ["Get enough protein", false], ["Get enough carbs", false], ["Get enough water", false]]}, {"average": 0, "categoryName": "Studying", "previousAverage": -1, "score": 0, "taskData": [["One unit study gamedev", false], ["One unit study webdev frontend", 
-      false], ["One unit study backend", false], ["One unit study UI UX", false], ["One unit study Project Management", false], ["One unit study C++", false], ["One unit study Java", false], ["One unit study Typescript", false], ["One unit study Security", false], ["One unit study cooking", false]]}, {"average": 0, "categoryName": "Atlas", "previousAverage": -1, "score": 0, "taskData": [["15 minutes play", false], ["15 minutes pets", false], ["Greenies", false], ["Proper Diet", false], ["Clean water", false], ["Litter box", false]]}, {"average": 0, "categoryName": "Housework", "previousAverage": -1, "score": 0, "taskData": [["One unit living room trash pickup", false], ["One unit living room vacuum", false], ["One unit living room clutter", false], ["One unit living room laundry pickup", false], ["Clean bathroom sink", false], ["Clean bathroom mirror", false], ["Clean tub if it needs cleaning", false], ["Clean shower walls if needed", false], ["Wash bathroom floor if needed", false], ["Clean fridge if needed", false], …]}, {"average": 0, "categoryName": "Gamedev", "previousAverage": -1, "score": 0, "taskData": [["One unit gamedev", false]]}, {"average": 0, "categoryName": "Webdev", "previousAverage": -1, "score": 0, "taskData": [["One unit webdev", false]]}, {"average": 0, "categoryName": "Hygiene", "previousAverage": -1, "score": 0, 
-      "taskData": [["Dental trio one", false], ["Dental trio two", false], ["Shower", false], ["Wash face one", false], ["Moisturize one", false], ["Moisturize two", false], ["Wash face two", false], ["Zits + acne patches", false], ["Shave", false], ["New pillowcase", false]]}, {"average": 0, "categoryName": "Exercise", "previousAverage": -1, "score": 0, "taskData": [["Exercise", false]]}, …], "scoringData": {"average": 0, "previousAverage": -1, "score": 0}};
+      const expectedResult: string = '{"scoringData":{"score":0,"average":0,"previousAverage":-1},"categoryData":[{"score":null,"average":null,"previousAverage":-1,"categoryName":"Test-Category-1","taskData":[["Test-Habit-1",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Faith","taskData":[["NF",0],["No swearing",0],["Do not read scans you did not pay for",0],["Read scripture",0],["Truly and honestly seek God",0],["Pray",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Current Relationships","taskData":[["Mom",0],["Dad",0],["Charlie",0],["Ryan",0],["Max",0],["Joey",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Diet","taskData":[["Get enough fruit",0],["Get enough veggies",0],["Get enough protein",0],["Get enough water",0],["Get enough carbs",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Studying","taskData":[["One unit study gamedev",0],["One unit study backend",0],["One unit study webdev frontend",0],["One unit study UI UX",0],["One unit study Project Management",0],["One unit study C++",0],["One unit study Security",0],["One unit study cooking",0],["One unit study Java",0],["One unit study Typescript",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Atlas","taskData":[["15 minutes play",0],["15 minutes pets",0],["Greenies",0],["Proper Diet",0],["Clean water",0],["Litter box",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Housework","taskData":[["One unit living room trash pickup",0],["One unit living room vacuum",0],["One unit living room clutter",0],["One unit living room laundry pickup",0],["Clean bathroom sink",0],["Clean bathroom mirror",0],["Clean tub if it needs cleaning",0],["Clean shower walls if needed",0],["Wash bathroom floor if needed",0],["Clean fridge if needed",0],["One unit kitchen trash",0],["Dishes completely done",0],["One unit wash counters and sink",0],["Wash stove if needed",0],["One unit kitchen clutter",0],["Clean kitchen floor if needed",0],["Do a load of laundry if there is enough",0],["One unit vacuum office",0],["One unit office clutter",0],["One unit office trash",0],["Clean litter boxes",0],["Take out trash if its full",0],["One unit vacuum dining room",0],["One unit trash dining room",0],["One unit clutter dining room",0],["Shred junk mail",0],["One unit vacuum hallway",0],["Get mail",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Gamedev","taskData":[["One unit gamedev",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Webdev","taskData":[["One unit webdev",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Hygiene","taskData":[["Dental trio one",0],["Dental trio two",0],["Wash face one",0],["Moisturize two",0],["Moisturize one",0],["Shower",0],["Wash face two",0],["Zits + acne patches",0],["Shave",0],["New pillowcase",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Exercise","taskData":[["Exercise",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Wakeup","taskData":[["Wake up at 6AM. Get right out of bed",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Galatians","taskData":[["Find a moment to be patient",0],["Find a moment to be kind",0],["Find a moment to be generous",0],["Find a moment to be humble",0],["Find a moment to hold back from anger",0]]},{"score":0,"average":0,"previousAverage":-1,"categoryName":"Work","taskData":[["5 hours of concentrated work",0]]}]}';
 
-      expect(response).toEqual(null);
+      expect(JSON.stringify(response)).toEqual(expectedResult);
+    })
+    .catch((err: Error) => {
+        console.log(err);
+        expect(err).toBeUndefined();
+    });
+  });
+
+  test('Test prod', async () => {
+    runCommand('del mydatabase.db');
+    runCommand('node ../createDB.js');
+    
+    await addEntryToCategoryTable("2023-6-24", "Faith", 0, 0, 0);
+    await addEntry("2023-6-24", "Faith", "Pray", false);
+
+    const a = new TaskolotlStateRetriever();
+
+    await a.getTaskolotlState("2023-6-24").then((response: TaskolotlState) => {
+      const expectedResultJSON: string = '{"scoringData":{"score":0,"average":0,"previousAverage":-1},"categoryData":[{"score":0,"average":0,"previousAverage":-1,"categoryName":"Faith","taskData":[["Pray",0]]}]}'
+      expect(JSON.stringify(response)).toEqual(expectedResultJSON);
     })
     .catch((err: Error) => {
         console.log(err);

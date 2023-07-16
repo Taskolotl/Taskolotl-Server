@@ -3,5 +3,5 @@ export interface CategoryData {
     average: number;
     previousAverage: number;
     categoryName: string;
-    taskData: [string, boolean][];
+    taskData: [string, number][];
 }
