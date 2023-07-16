@@ -24,7 +24,7 @@ interface ApiResponse {
 }
 
   async function sendGetRequest(): Promise<ApiResponse> {
-    const url = 'http://localhost:3000/api/data'; // Replace with your server URL
+    const url = 'http://34.170.245.109/api/data'; // Replace with your server URL
   
     try {
       const response = await fetch(url, {
