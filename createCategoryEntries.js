@@ -33,9 +33,8 @@ function addEntryToCategoryTable(date, category, average, previousAverage, score
     });
 }
 
-addEntryToCategoryTable(getCurrentDate(), "Test-Category-1", 0, 0, 0);
 
-// addEntryToCategoryTable(getCurrentDate(), "Faith", 0, 0, 0);
+addEntryToCategoryTable(getCurrentDate(), "Faith", 0, 0, 0);
 // addEntryToCategoryTable(getCurrentDate(), "Current Relationships", 0, 0, 0);
 // addEntryToCategoryTable(getCurrentDate(), "Diet", 0, 0, 0);
 // addEntryToCategoryTable(getCurrentDate(), "Studying", 0, 0, 0);

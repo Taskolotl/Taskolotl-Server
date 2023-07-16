@@ -51,6 +51,8 @@ interface ApiResponse {
 
 sendGetRequest()
   .then((responseData: ApiResponse) => {
+    console.log(JSON.stringify(responseData));
+
     // Handle the response data
     console.log("SCORE: " + responseData.scoringData.score);
     console.log("AVERAGE: " + responseData.scoringData.average);

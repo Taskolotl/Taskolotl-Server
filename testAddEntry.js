@@ -37,7 +37,7 @@ function addEntry(datetime, category, name, finished) {
 addEntry(getCurrentDate(), "Test-Category-1", "Test-Habit-1", false);
 
 // Example usage:
-// addEntry(getCurrentDate(), "Faith", "Pray", false);
+addEntry(getCurrentDate(), "Faith", "Pray", false);
 // addEntry(getCurrentDate(), "Faith", "Truly and honestly seek God", false);
 // addEntry(getCurrentDate(), "Faith", "NF", false);
 // addEntry(getCurrentDate(), "Faith", "No swearing", false);
@@ -60,7 +60,12 @@ addEntry(getCurrentDate(), "Test-Category-1", "Test-Habit-1", false);
 // addEntry(getCurrentDate(), "Studying", "One unit study gamedev", false);
 // addEntry(getCurrentDate(), "Studying", "One unit study webdev frontend", false);
 // addEntry(getCurrentDate(), "Studying", "One unit study backend", false);
-// addEntry(getCurrentDate(), "Studying", "One unit study Japanese", false);
+// addEntry(getCurrentDate(), "Studying", "One unit study UI UX", false);
+// addEntry(getCurrentDate(), "Studying", "One unit study Project Management", false);
+// addEntry(getCurrentDate(), "Studying", "One unit study C++", false);
+// addEntry(getCurrentDate(), "Studying", "One unit study Java", false);
+// addEntry(getCurrentDate(), "Studying", "One unit study Typescript", false);
+// addEntry(getCurrentDate(), "Studying", "One unit study Security", false);
 // addEntry(getCurrentDate(), "Studying", "One unit study cooking", false);
 
 // addEntry(getCurrentDate(), "Atlas", "15 minutes play", false);
@@ -70,15 +75,34 @@ addEntry(getCurrentDate(), "Test-Category-1", "Test-Habit-1", false);
 // addEntry(getCurrentDate(), "Atlas", "Clean water", false);
 // addEntry(getCurrentDate(), "Atlas", "Litter box", false);
 
-// addEntry(getCurrentDate(), "Housework", "One unit dishes", false);
-// addEntry(getCurrentDate(), "Housework", "One unit garbage", false);
-// addEntry(getCurrentDate(), "Housework", "One unit laundry", false);
-// addEntry(getCurrentDate(), "Housework", "One unit housecleaning", false);
-// addEntry(getCurrentDate(), "Housework", "One unit clutter", false);
-// addEntry(getCurrentDate(), "Housework", "Get the mail", false);
-// addEntry(getCurrentDate(), "Housework", "One unit shredding", false);
-// addEntry(getCurrentDate(), "Housework", "Food prepped for the next day", false);
-// addEntry(getCurrentDate(), "Housework", "Wash any dishes I dirtied", false);
+// addEntry(getCurrentDate(), "Housework", "One unit living room trash pickup", false);
+// addEntry(getCurrentDate(), "Housework", "One unit living room vacuum", false);
+// addEntry(getCurrentDate(), "Housework", "One unit living room clutter", false);
+// addEntry(getCurrentDate(), "Housework", "One unit living room laundry pickup", false);
+// addEntry(getCurrentDate(), "Housework", "Clean bathroom sink", false);
+// addEntry(getCurrentDate(), "Housework", "Clean bathroom mirror", false);
+// addEntry(getCurrentDate(), "Housework", "Clean tub if it needs cleaning", false);
+// addEntry(getCurrentDate(), "Housework", "Clean shower walls if needed", false);
+// addEntry(getCurrentDate(), "Housework", "Wash bathroom floor if needed", false);
+// addEntry(getCurrentDate(), "Housework", "Clean fridge if needed", false);
+// addEntry(getCurrentDate(), "Housework", "One unit kitchen trash", false);
+// addEntry(getCurrentDate(), "Housework", "Dishes completely done", false);
+// addEntry(getCurrentDate(), "Housework", "One unit wash counters and sink", false);
+// addEntry(getCurrentDate(), "Housework", "Wash stove if needed", false);
+// addEntry(getCurrentDate(), "Housework", "Clean kitchen floor if needed", false);
+// addEntry(getCurrentDate(), "Housework", "One unit kitchen clutter", false);
+// addEntry(getCurrentDate(), "Housework", "Do a load of laundry if there's enough", false);
+// addEntry(getCurrentDate(), "Housework", "One unit vacuum office", false);
+// addEntry(getCurrentDate(), "Housework", "One unit office clutter", false);
+// addEntry(getCurrentDate(), "Housework", "One unit office trash", false);
+// addEntry(getCurrentDate(), "Housework", "Clean litter boxes", false);
+// addEntry(getCurrentDate(), "Housework", "Take out trash if its full", false);
+// addEntry(getCurrentDate(), "Housework", "One unit vacuum dining room", false);
+// addEntry(getCurrentDate(), "Housework", "One unit trash dining room", false);
+// addEntry(getCurrentDate(), "Housework", "One unit clutter dining room", false);
+// addEntry(getCurrentDate(), "Housework", "Shred junk mail", false);
+// addEntry(getCurrentDate(), "Housework", "Get mail", false);
+// addEntry(getCurrentDate(), "Housework", "One unit vacuum hallway", false);
 
 // addEntry(getCurrentDate(), "Gamedev", "One unit gamedev", false);
 
@@ -105,7 +129,7 @@ addEntry(getCurrentDate(), "Test-Category-1", "Test-Habit-1", false);
 // addEntry(getCurrentDate(), "Galatians", "Find a moment to be generous", false);
 // addEntry(getCurrentDate(), "Galatians", "Find a moment to hold back from anger", false);
 
-// addEntry(getCurrentDate(), "Work", "6 hours of concentrated work", false);
+// addEntry(getCurrentDate(), "Work", "5 hours of concentrated work", false);
 
 
 

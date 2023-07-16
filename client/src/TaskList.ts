@@ -53,6 +53,7 @@ export class TaskList {
     }
 
     private createCategorySummaryRow(score: number, average: number, previousAverage: number): void {
+        console.log("AAA: " + score + ", " + average + ", " + previousAverage);
         const summaryLabel : string = "Score: " + Number(score.toFixed(2)) + ", AVG: " + Number(average.toFixed(2)) + ", PV-AVG: " + Number(previousAverage.toFixed(2));
         console.log(summaryLabel); 
 

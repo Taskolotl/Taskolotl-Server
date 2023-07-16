@@ -1,4 +1,5 @@
 import * as sqlite3 from 'sqlite3';
+import { finished } from 'stream';
 
 interface TaskCategory {
     categoryName: string;
@@ -7,15 +8,18 @@ interface TaskCategory {
 
 export class TaskolotlStateUpdater {
     constructor() {
-        console.log("HELLO TaskolotlStateUpdater");
     }
 
-    private updateEntry(db: sqlite3.Database, finished: boolean, currentDate: string, taskCategory: TaskCategory, taskName: string): Promise<void> {
+    public updateEntry(finished: boolean, currentDate: string, categoryName: string, taskName: string): Promise<void> {
         return new Promise((resolve, reject) => {
+          const databaseName = 'mydatabase.db';
+
+          const db = new sqlite3.Database(databaseName);
+
             const query = 'UPDATE entries SET finished = ? WHERE datetime = ? AND category = ? AND name = ?';
             const finishedValue = finished ? 1 : 0;
 
-            db.run(query, [finishedValue, currentDate, taskCategory.categoryName, taskName], function (err: Error | null) {
+            db.run(query, [finishedValue, currentDate, categoryName, taskName], function (err: Error | null) {
               if (err) {
                   reject(err);
                 } else {
@@ -32,18 +36,13 @@ export class TaskolotlStateUpdater {
           });
     }
 
-    private updateEntryFinished(taskCategory: TaskCategory, currentDate: string): void {
-        const databaseName = 'mydatabase.db';
-
-        const db = new sqlite3.Database(databaseName);
-    
-        taskCategory.taskData.forEach(([taskName, finished]) => {
-          // Prepare the SQL statement
-            this.updateEntry(db, finished, currentDate, taskCategory, taskName)
-        });
+    public async updateEntryFinished(taskData: [string, boolean][], categoryName: string, currentDate: string): Promise<void> {
+        for (const entry of taskData) {
+          await this.updateEntry(entry[1], currentDate, categoryName, entry[0]);
+        }
     }
 
-      private setCategoryScore(categoryName: string, datetime: string, score: number): Promise<void> {
+      public setCategoryScore(categoryName: string, datetime: string, score: number): Promise<void> {
         const databaseName = 'mydatabase.db';
 
         return new Promise((resolve, reject) => {
@@ -68,14 +67,13 @@ export class TaskolotlStateUpdater {
         });
     }
 
-    public updateTaskolotlState(jsonString: string, currentDate: string): number {
+    public async updateTaskolotlState(jsonString: string, currentDate: string): Promise<number> {
     
         // Step 2: Parse the JSON string into a JavaScript object
         const taskCategories: TaskCategory[] = JSON.parse(jsonString);
     
-        // Step 3: Iterate over the array and create TaskCategory instances
-        const parsedTaskCategories: TaskCategory[] = taskCategories.map(category => {
-          this.updateEntryFinished(category, currentDate);
+        for (const category of taskCategories) {
+          await this.updateEntryFinished(category.taskData, category.categoryName, currentDate);
           const { categoryName, taskData } = category;
           const parsedTaskData: [string, boolean][] = taskData.map(([task, status]) => [task, Boolean(status)]);
   
@@ -83,10 +81,8 @@ export class TaskolotlStateUpdater {
           const totalCount = parsedTaskData.length;
           const averageTrueCount = totalCount > 0 ? trueCount / totalCount : 0;
   
-          this.setCategoryScore(category.categoryName, currentDate, averageTrueCount);
-  
-          return { categoryName, taskData: parsedTaskData };
-        });
+          await this.setCategoryScore(category.categoryName, currentDate, averageTrueCount);
+        }
   
         return 200;
     }
