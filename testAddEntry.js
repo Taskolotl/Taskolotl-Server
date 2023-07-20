@@ -49,6 +49,7 @@ addEntry(getCurrentDate(), "Current Relationships", "Charlie", false);
 addEntry(getCurrentDate(), "Current Relationships", "Ryan", false);
 addEntry(getCurrentDate(), "Current Relationships", "Max", false);
 addEntry(getCurrentDate(), "Current Relationships", "Joey", false);
+addEntry(getCurrentDate(), "Current Relationships", "Todd", false);
 
 addEntry(getCurrentDate(), "Diet", "Get enough fruit", false);
 addEntry(getCurrentDate(), "Diet", "Get enough veggies", false);
@@ -129,6 +130,8 @@ addEntry(getCurrentDate(), "Galatians", "Find a moment to be generous", false);
 addEntry(getCurrentDate(), "Galatians", "Find a moment to hold back from anger", false);
 
 addEntry(getCurrentDate(), "Work", "5 hours of concentrated work", false);
+
+addEntry(getCurrentDate(), "Budget", "Manage the budget", false);
 
 
 

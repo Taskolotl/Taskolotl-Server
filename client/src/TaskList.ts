@@ -181,7 +181,7 @@ export class TaskList {
 
 
       private async sendGetRequest(): Promise<ApiResponse> {
-        const url = 'http://34.135.121.239:3000/api/data'; // Replace with your server URL
+        const url = 'http://localhost:3000/api/data'; // Replace with your server URL
       
         try {
           const response = await fetch(url, {
