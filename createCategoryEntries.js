@@ -48,3 +48,6 @@ addEntryToCategoryTable(getCurrentDate(), "Wakeup", 0, 0, 0);
 addEntryToCategoryTable(getCurrentDate(), "Galatians", 0, 0, 0);
 addEntryToCategoryTable(getCurrentDate(), "Work", 0, 0, 0);
 addEntryToCategoryTable(getCurrentDate(), "Budget", 0, 0, 0);
+addEntryToCategoryTable(getCurrentDate(), "New Relationships", 0, 0, 0);
+addEntryToCategoryTable(getCurrentDate(), "Empathy", 0, 0, 0);
+addEntryToCategoryTable(getCurrentDate(), "Internal", 0, 0, 0);
