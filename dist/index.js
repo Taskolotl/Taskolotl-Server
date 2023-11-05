@@ -55,6 +55,7 @@ app.listen(port, () => {
 });
 function addEntryToCategoryTable(date, category, average, previousAverage, score) {
     return new Promise((resolve, reject) => {
+        console.log("ADD CATEGORY");
         const db = new sqlite3.Database('mydatabase.db');
         const tableName = 'CategoryTable';
         // Construct the SQL query to insert a new entry into the table
@@ -83,6 +84,7 @@ function addEntryToCategoryTable(date, category, average, previousAverage, score
 // Function to add an entry to the table
 function addEntry(datetime, category, name, finished) {
     return new Promise((resolve, reject) => {
+        console.log("ADD ENTRY");
         const db = new sqlite3.Database('mydatabase.db');
         // Insert the entry into the table
         const query = `
@@ -109,12 +111,31 @@ function addEntry(datetime, category, name, finished) {
 }
 // Define the task to be executed at 12:05 AM
 const midnightTask = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Current Relationships", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Diet", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Atlas", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Gamedev", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Webdev", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Hygiene", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Exercise", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Wakeup", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Galatians", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Work", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Budget", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "New Relationships", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", 0, 0, 0);
+    yield addEntryToCategoryTable(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Internal", 0, 0, 0);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", "Pray", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", "Truly and honestly seek God", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", "NF", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", "NP", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", "No swearing", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", "Read scripture", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", "Do not read scans you did not pay for", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Faith", "Try to connect with people of my own faith", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Current Relationships", "Mom", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Current Relationships", "Dad", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Current Relationships", "Charlie", false);
@@ -127,16 +148,9 @@ const midnightTask = () => __awaiter(void 0, void 0, void 0, function* () {
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Diet", "Get enough protein", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Diet", "Get enough carbs", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Diet", "Get enough water", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study gamedev", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study webdev frontend", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study backend", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study UI UX", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study Project Management", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study C++", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study Java", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study Typescript", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study Security", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study cooking", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Diet", "Don't eat out alone", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit new material", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Studying", "One unit old material", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Atlas", "15 minutes play", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Atlas", "15 minutes pets", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Atlas", "Greenies", false);
@@ -157,7 +171,7 @@ const midnightTask = () => __awaiter(void 0, void 0, void 0, function* () {
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "One unit bathroom laundry", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "Clean fridge if needed", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "One unit kitchen trash", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "Dishes completely done", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "Dishes", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "One unit wash counters and sink", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "Wash stove if needed", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "Clean kitchen floor if needed", false);
@@ -174,6 +188,7 @@ const midnightTask = () => __awaiter(void 0, void 0, void 0, function* () {
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "Shred junk mail", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "Get mail", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "One unit vacuum hallway", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Housework", "Clean toilet", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Gamedev", "One unit gamedev", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Webdev", "One unit webdev", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Hygiene", "Dental trio one", false);
@@ -187,7 +202,7 @@ const midnightTask = () => __awaiter(void 0, void 0, void 0, function* () {
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Hygiene", "Shave", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Hygiene", "New pillowcase", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Exercise", "Exercise", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Wakeup", "Wake up at 6AM. Get right out of bed", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Wakeup", "Be out of bed by 7AM", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Galatians", "Find a moment to be patient", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Galatians", "Find a moment to be kind", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Galatians", "Find a moment to be humble", false);
@@ -205,24 +220,28 @@ const midnightTask = () => __awaiter(void 0, void 0, void 0, function* () {
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Work", "Pomodoro Ten", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Work", "Pomodoro Eleven", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Work", "Pomodoro Twelve", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Work", "Turn off Discord and social media", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Work", "Phone in Do Not Disturb", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Budget", "Manage the budget", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "New Relationships", "Work on building a rapport with a new person", false);
     yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "New Relationships", "Take a risk", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Mom", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Dad", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Charlie", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Ryan", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Max", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Todd", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Joey", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Tyson", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Preston", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "George", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Brian", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Matt", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Lita", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "Ryan C", false);
-    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", "God", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Internal", "Don't give up when it looks like I'm behind", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Internal", "Resist goofing off when I could be productive in the evening", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Mom", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Dad", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Charlie", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Ryan", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Max", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Todd", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Joey", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Tyson", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Preston", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".George", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Brian", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Matt", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Lita", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".Ryan C", false);
+    yield addEntry(CurrentDateRetriever_1.CurrentDateRetriever.getCurrentDate(), "Empathy", ".God", false);
 });
 // Schedule the task to run every night at 12:05 AM
 const job = schedule.scheduleJob('5 0 * * *', midnightTask);

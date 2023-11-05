@@ -57,6 +57,8 @@ app.listen(port, () => {
 
 function addEntryToCategoryTable(date: string, category: string, average: number, previousAverage: number, score: number): Promise<void> {
   return new Promise((resolve, reject) => {
+    console.log("ADD CATEGORY");
+
     const db = new sqlite3.Database('mydatabase.db');
     const tableName = 'CategoryTable';
   
@@ -87,6 +89,8 @@ function addEntryToCategoryTable(date: string, category: string, average: number
 // Function to add an entry to the table
 function addEntry(datetime: string, category: string, name: string, finished: boolean): Promise<void> {
   return new Promise((resolve, reject) => {
+    console.log("ADD ENTRY");
+
     const db = new sqlite3.Database('mydatabase.db');
 
     // Insert the entry into the table
@@ -117,12 +121,32 @@ function addEntry(datetime: string, category: string, name: string, finished: bo
 
 // Define the task to be executed at 12:05 AM
 const midnightTask = async () => {
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Faith", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Current Relationships", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Diet", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Studying", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Atlas", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Housework", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Gamedev", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Webdev", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Hygiene", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Exercise", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Wakeup", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Galatians", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Work", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Budget", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "New Relationships", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Empathy", 0, 0, 0);
+  await addEntryToCategoryTable(CurrentDateRetriever.getCurrentDate(), "Internal", 0, 0, 0);
+
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Faith", "Pray", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Faith", "Truly and honestly seek God", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Faith", "NF", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Faith", "NP", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Faith", "No swearing", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Faith", "Read scripture", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Faith", "Do not read scans you did not pay for", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Faith", "Try to connect with people of my own faith", false);
   
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Current Relationships", "Mom", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Current Relationships", "Dad", false);
@@ -137,17 +161,10 @@ const midnightTask = async () => {
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Diet", "Get enough protein", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Diet", "Get enough carbs", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Diet", "Get enough water", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Diet", "Don't eat out alone", false);
   
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study gamedev", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study webdev frontend", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study backend", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study UI UX", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study Project Management", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study C++", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study Java", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study Typescript", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study Security", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit study cooking", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit new material", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Studying", "One unit old material", false);
   
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Atlas", "15 minutes play", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Atlas", "15 minutes pets", false);
@@ -170,7 +187,7 @@ const midnightTask = async () => {
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "One unit bathroom laundry", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "Clean fridge if needed", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "One unit kitchen trash", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "Dishes completely done", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "Dishes", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "One unit wash counters and sink", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "Wash stove if needed", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "Clean kitchen floor if needed", false);
@@ -187,6 +204,7 @@ const midnightTask = async () => {
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "Shred junk mail", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "Get mail", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "One unit vacuum hallway", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Housework", "Clean toilet", false);
   
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Gamedev", "One unit gamedev", false);
   
@@ -205,7 +223,7 @@ const midnightTask = async () => {
   
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Exercise", "Exercise", false);
   
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Wakeup", "Wake up at 6AM. Get right out of bed", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Wakeup", "Be out of bed by 7AM", false);
   
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Galatians", "Find a moment to be patient", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Galatians", "Find a moment to be kind", false);
@@ -225,27 +243,32 @@ const midnightTask = async () => {
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Work", "Pomodoro Ten", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Work", "Pomodoro Eleven", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Work", "Pomodoro Twelve", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Work", "Turn off Discord and social media", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Work", "Phone in Do Not Disturb", false);
   
   await addEntry(CurrentDateRetriever.getCurrentDate(), "Budget", "Manage the budget", false);
-
+  
   await addEntry(CurrentDateRetriever.getCurrentDate(), "New Relationships", "Work on building a rapport with a new person", false);
   await addEntry(CurrentDateRetriever.getCurrentDate(), "New Relationships", "Take a risk", false);
-
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Mom", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Dad", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Charlie", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Ryan", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Max", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Todd", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Joey", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Tyson", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Preston", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "George", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Brian", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Matt", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Lita", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "Ryan C", false);
-  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", "God", false);
+  
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Internal", "Don't give up when it looks like I'm behind", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Internal", "Resist goofing off when I could be productive in the evening", false);
+  
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Mom", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Dad", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Charlie", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Ryan", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Max", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Todd", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Joey", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Tyson", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Preston", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".George", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Brian", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Matt", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Lita", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".Ryan C", false);
+  await addEntry(CurrentDateRetriever.getCurrentDate(), "Empathy", ".God", false);
 };
   
 // Schedule the task to run every night at 12:05 AM

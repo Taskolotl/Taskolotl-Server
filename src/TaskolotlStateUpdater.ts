@@ -68,8 +68,6 @@ export class TaskolotlStateUpdater {
     }
 
     public async updateTaskolotlState(jsonString: string, currentDate: string): Promise<number> {
-    
-        // Step 2: Parse the JSON string into a JavaScript object
         const taskCategories: TaskCategory[] = JSON.parse(jsonString);
     
         for (const category of taskCategories) {

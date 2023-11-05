@@ -68,7 +68,6 @@ class TaskolotlStateUpdater {
     }
     updateTaskolotlState(jsonString, currentDate) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Step 2: Parse the JSON string into a JavaScript object
             const taskCategories = JSON.parse(jsonString);
             for (const category of taskCategories) {
                 yield this.updateEntryFinished(category.taskData, category.categoryName, currentDate);
